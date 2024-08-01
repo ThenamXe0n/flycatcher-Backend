@@ -2,6 +2,7 @@ const { Product } = require("../model/productModel");
 
 exports.createProducts = async (req, res) => {
   try {
+    console.log(req.body)
     const product = new Product(req.body);
     const doc = await product.save();
     res.status(200).json(`success : new product ${doc.product} has been added`);
@@ -31,7 +32,7 @@ exports.fetchProducts = async (req, res) => {
   }
   //sorting
   if (req.query._sort && req.query._order) {
-    query = query.sort({ [req.query._sort]: req.query._order });
+    query = query.sort({[req.query._sort]:req.query._order });
   }
 //total docs 
   const totalDocs = await totalProductsQuery.count().exec();

@@ -28,7 +28,7 @@ exports.userLogin = async (req, res) => {
         user.password === req.body.password
       ) {
         let token = generateToken({ name: user.name, id: user._id });
-        res.status(201).json({ status: "success", userdata: {name:user.name,email:user.email,contact:user.contact,role:user.role,address:user.address,userId:user._id},token:token });
+        res.status(201).json({ status: "success", userdata: {name:user.name,email:user.email,profile:user.profile,contact:user.contact,role:user.role,address:user.address,userId:user._id},token:token });
       } else {
         res.status(401).json({ message: "invalid credentials" });
       }

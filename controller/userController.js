@@ -5,28 +5,33 @@ exports.fetchUserById = async (req, res) => {
   const id = req.params.id;
   try {
     const user = await User.findById(id);
-    res
-      .status(200)
-      .json({
-        userdata: {
-          name: user.name,
-          email: user.email,
-          contact: user.contact,
-          role: user.role,
-          address: user.address,
-          userId: user._id,
-        },
-      });
+    res.status(200).json({
+      userdata: {
+        name: user.name,
+        email: user.email,
+        contact: user.contact,
+        role: user.role,
+        profile:user.profile,
+        address: user.address,
+        userId: user._id,
+      },
+    });
   } catch (err) {
     res.status(401).json({ error: err.message });
   }
 };
 
 exports.updateUser = async (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
+  const user = await User.findById(id);
+  
   try {
-    const user = await User.findByIdAndUpdate(id, req.body, { new: true });
-    res.status(200).json(user);
+    if(!user){
+      res.status(401).json("user not found")
+      return;
+    }
+    const newUser = await User.findByIdAndUpdate(id, req.body, { new: true });
+    res.status(200).json(newUser);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

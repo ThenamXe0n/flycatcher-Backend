@@ -7,7 +7,7 @@ const userSchema = mongoose.Schema({
     password:{type:String,required:true},
     contact:{type:String,min:10,max:10},
     role:{type:String,default:"User"},
-    address:{type:Array}
+    address:{type:Array,default:[]}
 })
 
 exports.User = mongoose.model("User",userSchema)

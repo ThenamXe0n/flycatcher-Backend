@@ -6,7 +6,7 @@ const authRouter = require("./routes/authRouter");
 const { StripeCheckout } = require("./controller/paymentController");
 const { Product } = require("./model/productModel");
 const stripe = require("stripe")(
-  "sk_test_51OlSaPSIRvECnq9uF6zkSQ2OztCE3xGucGpRLDLDhQR3KZVpSfOhpGukefXQnPE3UbJUh8d1GYJPwo1tGE340Ir60088WOkEfh"
+  process.env.STRIPE_SECERET_KEY
 );
 
 const app = express();
