@@ -5,37 +5,28 @@ const { connectMongoose } = require("../databaseConnection");
 const authRouter = require("../routes/authRouter");
 const { StripeCheckout } = require("../controller/paymentController");
 const { Product } = require("../model/productModel");
-const stripe = require("stripe")(
-  process.env.STRIPE_SECERET_KEY
-);
+const stripe = require("stripe")(process.env.STRIPE_SECERET_KEY);
 
 const app = express();
-const PORT = 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
-app.use("/api", authRouter);
-// app.use("/cart",cartRouter)
 
-//database connection
-connectMongoose();
-
-app.listen(PORT, () => {
-  console.log(`app is listning on ${PORT}`);
+app.get("/", (req, res) => {
+  res.send("server is live");
 });
-
 app.post("/checkout", async (req, res) => {
   try {
     const customer = await stripe.customers.create({
       shipping: {
-        name: 'Jenny Rosen',
+        name: "Jenny Rosen",
         address: {
-          line1: '510 Townsend St',
-          postal_code: '98140',
-          city: 'San Francisco',
-          state: 'CA',
-          country: 'US',
+          line1: "510 Townsend St",
+          postal_code: "98140",
+          city: "San Francisco",
+          state: "CA",
+          country: "US",
         },
       },
     });
@@ -57,18 +48,22 @@ app.post("/checkout", async (req, res) => {
       success_url: "http://localhost:8080/success",
       cancel_url: "http://localhost:8080/cancel",
     });
-    console.log(customer)
+    console.log(customer);
     res.json({ url: session.url });
-    console.log(res.app)
+    console.log(res.app);
   } catch (error) {
     res.status(401).json({ error: error.message });
   }
 });
 
+app.use("/api", authRouter);
+// app.use("/cart",cartRouter)
 
+//database connection
+connectMongoose();
 
-app.get("/", (req, res) => {
+// app.listen(PORT, () => {
+//   console.log(`app is listning on ${PORT}`);
+// });
 
-  res.send("server is live");
-
-});
+module.exports = app;
