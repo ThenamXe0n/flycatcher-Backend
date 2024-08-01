@@ -1,10 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const { connectMongoose } = require("./databaseConnection");
-const authRouter = require("./routes/authRouter");
-const { StripeCheckout } = require("./controller/paymentController");
-const { Product } = require("./model/productModel");
+const { connectMongoose } = require("../databaseConnection");
+const authRouter = require("../routes/authRouter");
+const { StripeCheckout } = require("../controller/paymentController");
+const { Product } = require("../model/productModel");
 const stripe = require("stripe")(
   process.env.STRIPE_SECERET_KEY
 );
